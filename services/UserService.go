@@ -2,6 +2,8 @@ package services
 
 import (
 	"errors"
+	"github.com/kataras/golog"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
 	"test/middleware"
 	"test/models"
@@ -30,12 +32,14 @@ func (c *userService) UserLogin(user models.User) *models.Result {
 	user.Password = utils.Md5(user.Password)
 	us := c.repo.UserByColumn(user)
 	if len(us) == 0 {
+		log.Error("用户名密码错误", user.UserName)
 		return models.GetResult("", "用户名或密码错误", errors.New("用户名或密码错误"))
 	}
 	u := us[0]
 	//获取用户的角色
 	urs := c.userRoleRepo.UserRoleByColumn(models.UserRole{UserID: u.ID})
 	if len(urs) == 0 {
+		log.Error("此用户没有角色,请联系管理员", user.UserName)
 		return models.GetResult("", "此用户没有角色,请联系管理员", errors.New("此用户没有角色,请联系管理员"))
 	}
 	var roleIDs []uint
@@ -45,6 +49,7 @@ func (c *userService) UserLogin(user models.User) *models.Result {
 	//获取用户的菜单 true只查询菜单不查询功能
 	ms := c.menuRepo.MenuByRole(roleIDs, true)
 	if len(ms) == 0 {
+		log.Error("此用户没有菜单,请联系管理员", user.UserName)
 		return models.GetResult("", "此用户没有菜单,请联系管理员", errors.New("此用户没有菜单,请联系管理员"))
 	}
 	mm := make(map[uint]*models.Menu)
@@ -76,17 +81,24 @@ func (c *userService) UserCreate(user models.User) *models.Result {
 	}
 	user.Password = utils.Md5(user.Password)
 	err := c.repo.UserCreate(&user)
+	if err != nil {
+		log.Error("用户创建失败")
+	}
 	return models.GetResult(user, "", err)
 }
 func (c *userService) UserUpdate(m map[string]interface{}) *models.Result {
 	ms := c.repo.UserRepeat(cast.ToUint(m["id"]), cast.ToString(m["user_name"]))
 	if len(ms) > 0 {
+		go log.WithFields(m).Error("角色名称重复")
 		return models.GetResult("", "角色名称重复", errors.New("角色名称重复"))
 	}
 	if v := cast.ToString(m["password"]); v != "" {
 		m["password"] = utils.Md5(v)
 	}
 	err := c.repo.UserUpdate(m)
+	if err != nil {
+		go log.WithFields(m).Error("角色创建失败")
+	}
 	return models.GetResult("修改成功", "修改失败", err)
 }
 func (c *userService) UserDel(id []interface{}) *models.Result {
