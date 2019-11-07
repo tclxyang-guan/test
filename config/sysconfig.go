@@ -2,7 +2,9 @@ package config
 
 import (
 	"github.com/json-iterator/go"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
+	"os"
 )
 
 var Sysconfig = &sysConfig{}
@@ -16,7 +18,34 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	go mkdir()
 
+}
+func mkdir() {
+	_, err := os.Stat(Sysconfig.Basic.StaticPath)
+	if err != nil { //不存在创建
+		err = os.MkdirAll(Sysconfig.Basic.StaticPath, os.ModePerm)
+		if err != nil {
+			log.Println("创建文件夹失败")
+			panic(err)
+		}
+	}
+	_, err = os.Stat(Sysconfig.Basic.ReqLogPath)
+	if err != nil { //不存在创建
+		err = os.MkdirAll(Sysconfig.Basic.StaticPath, os.ModePerm)
+		if err != nil {
+			log.Println("创建文件夹失败")
+			panic(err)
+		}
+	}
+	_, err = os.Stat(Sysconfig.Basic.ErrorLogPath)
+	if err != nil { //不存在创建
+		err = os.MkdirAll(Sysconfig.Basic.StaticPath, os.ModePerm)
+		if err != nil {
+			log.Println("创建文件夹失败")
+			panic(err)
+		}
+	}
 }
 
 type sysConfig struct {

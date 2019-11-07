@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/context"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/websocket"
@@ -66,9 +67,12 @@ func main() {
 		AllowedHeaders:   []string{"*"},
 	})
 	//jwt
-	app.Use(middleware.GetJWT().Serve)
+	//app.Use(middleware.GetJWT().Serve)
 	app.Use(iris.Gzip, logger.New(), crs)
 	app.AllowMethods(iris.MethodOptions)
+	app.Get("/test", func(ctx context.Context) {
+		ctx.WriteString("123456")
+	})
 	//注册路由
 	route.Route(app)
 	//websocket  检查token
