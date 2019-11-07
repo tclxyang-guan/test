@@ -24,49 +24,45 @@ replace (
 )
 
 require (
-	github.com/1324204490/tool v0.0.0-20191010080113-63ed2fbae1f1
-	github.com/BurntSushi/toml v0.3.1 // indirect
-	github.com/Joker/jade v1.0.0 // indirect
-	github.com/Shopify/goreferrer v0.0.0-20181106222321-ec9c9a553398 // indirect
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/ajg/form v1.5.1 // indirect
-	github.com/aymerick/raymond v2.0.2+incompatible // indirect
-	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
-	github.com/fatih/structs v1.1.0 // indirect
-	github.com/flosch/pongo2 v0.0.0-20190707114632-bbf5a6c351f4 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
+	github.com/garyburd/redigo v1.6.0
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
 	github.com/go-check/check v1.0.0-20180628173108-788fd7840127 // indirect
-	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/imkira/go-interpol v1.1.0 // indirect
-	github.com/iris-contrib/blackfriday v2.0.0+incompatible // indirect
 	github.com/iris-contrib/formBinder v5.0.0+incompatible // indirect
-	github.com/iris-contrib/go.uuid v2.0.0+incompatible // indirect
 	github.com/iris-contrib/httpexpect v0.0.0-20180314041918-ebe99fcebbce // indirect
+	github.com/iris-contrib/middleware/cors v0.0.0-20191028172159-41f72a73786a
+	github.com/iris-contrib/middleware/jwt v0.0.0-20191028172159-41f72a73786a
 	github.com/jinzhu/gorm v1.9.11
-	github.com/json-iterator/go v1.1.6 // indirect
+	github.com/json-iterator/go v1.1.6
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
-	github.com/kataras/golog v0.0.0-20190624001437-99c81de45f40 // indirect
 	github.com/kataras/iris v11.1.1+incompatible
-	github.com/kataras/pio v0.0.0-20190103105442-ea782b38602d // indirect
-	github.com/klauspost/compress v1.5.0 // indirect
-	github.com/klauspost/cpuid v1.2.1 // indirect
+	github.com/kataras/iris/v12 v12.0.0
+	github.com/kataras/neffos v0.0.10
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-isatty v0.0.9 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/mitchellh/mapstructure v1.1.2
 	github.com/moul/http2curl v1.0.0 // indirect
+	github.com/nats-io/nats-server/v2 v2.1.0 // indirect
+	github.com/objcoding/wxpay v1.0.6
 	github.com/onrik/logrus v0.4.1
 	github.com/onsi/ginkgo v1.10.1 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
-	github.com/ryanuber/columnize v2.1.0+incompatible // indirect
+	github.com/robfig/cron v1.2.0
 	github.com/sergi/go-diff v1.0.0 // indirect
-	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
+	github.com/shopspring/decimal v0.0.0-20191009025716-f1972eb1d1f5
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337 // indirect
+	github.com/spf13/cast v1.3.0
+	github.com/streadway/amqp v0.0.0-20190827072141-edfb9018d271
 	github.com/stretchr/testify v1.4.0 // indirect
+	github.com/valyala/fasthttp v1.6.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190809123943-df4f5c81cb3b // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/xeipuuv/gojsonschema v1.1.0 // indirect
@@ -74,7 +70,5 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c // indirect
 	google.golang.org/appengine v0.0.0-00010101000000-000000000000 // indirect
 )
