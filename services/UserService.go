@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"github.com/kataras/golog"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
 	"test/middleware"
@@ -15,7 +14,7 @@ type UserService interface {
 	UserLogin(user models.User) *models.Result
 	UserCreate(user models.User) *models.Result
 	UserUpdate(m map[string]interface{}) *models.Result
-	UserDel(id []interface{}) *models.Result
+	UserDel(ids []interface{}) *models.Result
 	UserPage(m map[string]interface{}) *models.Result
 }
 type userService struct {
@@ -32,14 +31,14 @@ func (c *userService) UserLogin(user models.User) *models.Result {
 	user.Password = utils.Md5(user.Password)
 	us := c.repo.UserByColumn(user)
 	if len(us) == 0 {
-		log.Error("用户名密码错误", user.UserName)
+		go log.WithFields(map[string]interface{}{"user_name": user.UserName}).Error("用户名或密码错误")
 		return models.GetResult("", "用户名或密码错误", errors.New("用户名或密码错误"))
 	}
 	u := us[0]
 	//获取用户的角色
 	urs := c.userRoleRepo.UserRoleByColumn(models.UserRole{UserID: u.ID})
 	if len(urs) == 0 {
-		log.Error("此用户没有角色,请联系管理员", user.UserName)
+		go log.WithFields(map[string]interface{}{"user_name": user.UserName}).Error("此用户没有角色,请联系管理员")
 		return models.GetResult("", "此用户没有角色,请联系管理员", errors.New("此用户没有角色,请联系管理员"))
 	}
 	var roleIDs []uint
@@ -49,7 +48,7 @@ func (c *userService) UserLogin(user models.User) *models.Result {
 	//获取用户的菜单 true只查询菜单不查询功能
 	ms := c.menuRepo.MenuByRole(roleIDs, true)
 	if len(ms) == 0 {
-		log.Error("此用户没有菜单,请联系管理员", user.UserName)
+		go log.WithFields(map[string]interface{}{"user_name": user.UserName}).Error("此用户没有菜单,请联系管理员")
 		return models.GetResult("", "此用户没有菜单,请联系管理员", errors.New("此用户没有菜单,请联系管理员"))
 	}
 	mm := make(map[uint]*models.Menu)
@@ -77,42 +76,48 @@ func (c *userService) UserLogin(user models.User) *models.Result {
 func (c *userService) UserCreate(user models.User) *models.Result {
 	ms := c.repo.UserRepeat(0, user.UserName)
 	if len(ms) > 0 {
-		return models.GetResult("", "角色名称重复", errors.New("角色名称重复"))
+		go log.WithFields(utils.StructToMap(user)).Error("用户名称重复")
+		return models.GetResult("", "用户名称重复", errors.New("用户名称重复"))
 	}
 	user.Password = utils.Md5(user.Password)
 	err := c.repo.UserCreate(&user)
 	if err != nil {
-		log.Error("用户创建失败")
+		go log.WithFields(utils.StructToMap(user)).Error("用户创建失败")
 	}
-	return models.GetResult(user, "", err)
+	return models.GetResult(user, "创建失败", err)
 }
 func (c *userService) UserUpdate(m map[string]interface{}) *models.Result {
 	ms := c.repo.UserRepeat(cast.ToUint(m["id"]), cast.ToString(m["user_name"]))
 	if len(ms) > 0 {
-		go log.WithFields(m).Error("角色名称重复")
-		return models.GetResult("", "角色名称重复", errors.New("角色名称重复"))
+		go log.WithFields(m).Error("用户名称重复")
+		return models.GetResult("", "用户名称重复", errors.New("用户名称重复"))
 	}
 	if v := cast.ToString(m["password"]); v != "" {
 		m["password"] = utils.Md5(v)
 	}
 	err := c.repo.UserUpdate(m)
 	if err != nil {
-		go log.WithFields(m).Error("角色创建失败")
+		go log.WithFields(m).Error("用户修改失败")
 	}
 	return models.GetResult("修改成功", "修改失败", err)
 }
-func (c *userService) UserDel(id []interface{}) *models.Result {
-	err := c.repo.UserDel(id)
+func (c *userService) UserDel(ids []interface{}) *models.Result {
+	err := c.repo.UserDel(ids)
+	if err != nil {
+		go log.WithFields(map[string]interface{}{"ids": ids}).Error("用户删除失败")
+	}
 	return models.GetResult("删除成功", "删除失败", err)
 }
 func (c *userService) UserPage(m map[string]interface{}) *models.Result {
 	var page models.Page
 	if err := utils.DataToAnyData(m["page"], &page); err != nil {
+		go log.WithFields(m).Error("参数错误", err.Error())
 		return models.GetResult("", "参数错误", err)
 	}
 	User := models.User{}
 	if _, ok := m["user"]; ok {
 		if err := utils.DataToAnyData(m["user"], &User); err != nil {
+			go log.WithFields(m).Error("参数错误", err.Error())
 			return models.GetResult("", "参数错误", err)
 		}
 	}
