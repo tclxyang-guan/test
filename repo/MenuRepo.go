@@ -33,8 +33,8 @@ func (c *menuRepo) MenuCreate(menu *models.Menu) error {
 	defer utils.Defer(tx, &flag)
 	//查询菜单
 	var seq int
-	tx.Table("menu").Select("max(sort)").Where("type=?", menu.Type).Row().Scan(&seq)
-	menu.Sort = seq + 1
+	tx.Table("menu").Select("max(seq)").Where("type=?", menu.Type).Row().Scan(&seq)
+	menu.Seq = seq + 1
 	err := tx.Create(menu).Error
 	if err != nil {
 		return err
@@ -53,11 +53,11 @@ func (c *menuRepo) MenuUpdateSeq(m map[string]interface{}) error {
 	tx := c.db.Begin()
 	flag := false
 	defer utils.Defer(tx, &flag)
-	err := tx.Model(&models.Menu{}).Where("id=?", cast.ToUint(m["id"])).Update("sort", cast.ToInt(m["sort1"])).Error
+	err := tx.Model(&models.Menu{}).Where("id=?", cast.ToUint(m["id"])).Update("seq", cast.ToInt(m["seq1"])).Error
 	if err != nil {
 		return err
 	}
-	err = tx.Model(&models.Menu{}).Where("id=?", cast.ToUint(m["id1"])).Update("sort", cast.ToInt(m["sort"])).Error
+	err = tx.Model(&models.Menu{}).Where("id=?", cast.ToUint(m["id1"])).Update("seq", cast.ToInt(m["seq"])).Error
 	if err != nil {
 		return err
 	}
@@ -99,7 +99,7 @@ func (c *menuRepo) MenuByColumn(menu models.Menu) (ms []models.Menu) {
 
 //根据角色查询菜单以及功能(Type为true只查菜单)
 func (c *menuRepo) MenuByRole(roleIds []uint, Type bool) (ms []models.Menu) {
-	db := c.db.Where("id in (?)", c.db.Table("role_menu").Select("distinct(menu_id)").Where("role_id in (?)", roleIds).SubQuery()).Order("`level`,Sort")
+	db := c.db.Where("id in (?)", c.db.Table("role_menu").Select("distinct(menu_id)").Where("role_id in (?)", roleIds).SubQuery()).Order("`level`,seq")
 	if Type {
 		db = db.Where("type=?", 1)
 	}

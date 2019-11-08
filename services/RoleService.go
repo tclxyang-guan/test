@@ -30,6 +30,7 @@ func (c *roleService) RoleCreate(role models.Role) *models.Result {
 		go log.WithFields(utils.StructToMap(role)).Error("角色名称重复")
 		return models.GetResult("", "角色名称重复", errors.New("角色名称重复"))
 	}
+	role.State = true
 	err := c.repo.RoleCreate(&role)
 	if err != nil {
 		go log.WithFields(utils.StructToMap(role)).Error("角色创建失败", err.Error())

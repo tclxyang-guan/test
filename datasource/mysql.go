@@ -19,8 +19,14 @@ func init() {
 		log.Fatal("连接数据库失败")
 	}
 	db.DB().SetMaxIdleConns(10)
+	//关闭表名复数
+	db.SingularTable(true)
 	db.AutoMigrate(
-		models.Test{},
+		models.Menu{},
+		models.User{},
+		models.Role{},
+		models.RoleMenu{},
+		models.UserRole{},
 	)
 	db.LogMode(true)
 	logger := log.New()

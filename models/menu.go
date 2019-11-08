@@ -1,17 +1,13 @@
 package models
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
 /*
 菜单表
 */
 type Menu struct {
-	gorm.Model
+	Model
 	Menu         []*Menu //下级菜单切片
 	Level        int     `json:"level"`         //等级
-	Sort         int     `json:"sort"`          //排序 从小到大排序
+	Seq          int     `json:"seq"`           //排序 从小到大排序
 	MenuName     string  `json:"menu_name"`     //菜单名称
 	MenuUrl      string  `json:"menu_url"`      //菜单路径
 	InterfaceUrl string  `json:"interface_url"` //(功能)的接口路径

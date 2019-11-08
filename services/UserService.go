@@ -80,6 +80,7 @@ func (c *userService) UserCreate(user models.User) *models.Result {
 		return models.GetResult("", "用户名称重复", errors.New("用户名称重复"))
 	}
 	user.Password = utils.Md5(user.Password)
+	user.State = true
 	err := c.repo.UserCreate(&user)
 	if err != nil {
 		go log.WithFields(utils.StructToMap(user)).Error("用户创建失败")
