@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 	"io"
 	"net/http"
 	"os"

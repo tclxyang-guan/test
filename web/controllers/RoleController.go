@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"errors"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 	"github.com/spf13/cast"
 	"test/models"
 	"test/services"
@@ -10,11 +10,11 @@ import (
 
 type RoleController struct {
 	Ctx     iris.Context
-	service services.RoleService
+	Service services.RoleService
 }
 
 func NewRoleController() *RoleController {
-	return &RoleController{service: services.NewRoleService()}
+	return &RoleController{Service: services.NewRoleService()}
 }
 
 /*
@@ -27,7 +27,7 @@ func (c *RoleController) PostCreate() (result *models.Result) {
 	if err != nil {
 		return models.GetResult("", "参数错误", err)
 	}
-	return c.service.RoleCreate(role)
+	return c.Service.RoleCreate(role)
 }
 
 /*
@@ -37,7 +37,7 @@ PostUpdate
 func (c *RoleController) PostUpdate() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.RoleUpdate(m)
+	return c.Service.RoleUpdate(m)
 }
 
 /*
@@ -50,7 +50,7 @@ func (c *RoleController) PostDel() (result *models.Result) {
 	if v, ok := m["ids"].([]interface{}); !ok {
 		return models.GetResult("", "参数错误", errors.New("参数错误"))
 	} else {
-		return c.service.RoleDel(v, cast.ToBool(m["force"]))
+		return c.Service.RoleDel(v, cast.ToBool(m["force"]))
 	}
 }
 
@@ -61,5 +61,5 @@ PostPage
 func (c *RoleController) PostPage() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.RolePage(m)
+	return c.Service.RolePage(m)
 }

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"errors"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 	"github.com/spf13/cast"
 	"test/models"
 	"test/services"
@@ -10,11 +10,11 @@ import (
 
 type MenuController struct {
 	Ctx     iris.Context
-	service services.MenuService
+	Service services.MenuService
 }
 
 func NewMenuController() *MenuController {
-	return &MenuController{service: services.NewMenuService()}
+	return &MenuController{Service: services.NewMenuService()}
 }
 
 /*
@@ -27,7 +27,7 @@ func (c *MenuController) PostCreate() (result *models.Result) {
 	if err != nil {
 		return models.GetResult("", "参数错误", err)
 	}
-	return c.service.MenuCreate(menu)
+	return c.Service.MenuCreate(menu)
 }
 
 /*
@@ -37,7 +37,7 @@ PostUpdate
 func (c *MenuController) PostUpdate() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.MenuUpdate(m)
+	return c.Service.MenuUpdate(m)
 }
 
 /*
@@ -50,7 +50,7 @@ func (c *MenuController) PostDel() (result *models.Result) {
 	if v, ok := m["ids"].([]interface{}); !ok {
 		return models.GetResult("", "参数错误", errors.New("参数错误"))
 	} else {
-		return c.service.MenuDel(v, cast.ToBool(m["force"]))
+		return c.Service.MenuDel(v, cast.ToBool(m["force"]))
 	}
 }
 
@@ -61,5 +61,5 @@ PostPage
 func (c *MenuController) PostPage() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.MenuPage(m)
+	return c.Service.MenuPage(m)
 }

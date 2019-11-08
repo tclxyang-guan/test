@@ -2,18 +2,18 @@ package controllers
 
 import (
 	"errors"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 	"test/models"
 	"test/services"
 )
 
 type UserController struct {
 	Ctx     iris.Context
-	service services.UserService
+	Service services.UserService
 }
 
 func NewUserController() *UserController {
-	return &UserController{service: services.NewUserService()}
+	return &UserController{Service: services.NewUserService()}
 }
 
 /*
@@ -23,7 +23,7 @@ PostLogin
 func (c *UserController) PostLogin() (result *models.Result) {
 	var user models.User
 	c.Ctx.ReadJSON(&user)
-	return c.service.UserLogin(user)
+	return c.Service.UserLogin(user)
 }
 
 /*
@@ -33,7 +33,7 @@ PostCreate
 func (c *UserController) PostCreate() (result *models.Result) {
 	var user models.User
 	c.Ctx.ReadJSON(&user)
-	return c.service.UserCreate(user)
+	return c.Service.UserCreate(user)
 }
 
 /*
@@ -43,7 +43,7 @@ PostUpdate
 func (c *UserController) PostUpdate() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.UserUpdate(m)
+	return c.Service.UserUpdate(m)
 }
 
 /*
@@ -56,7 +56,7 @@ func (c *UserController) PostDel() (result *models.Result) {
 	if v, ok := m["ids"].([]interface{}); !ok {
 		return models.GetResult("", "参数错误", errors.New("参数错误"))
 	} else {
-		return c.service.UserDel(v)
+		return c.Service.UserDel(v)
 	}
 }
 
@@ -67,5 +67,5 @@ PostPage
 func (c *UserController) PostPage() (result *models.Result) {
 	var m map[string]interface{}
 	c.Ctx.ReadJSON(&m)
-	return c.service.UserPage(m)
+	return c.Service.UserPage(m)
 }

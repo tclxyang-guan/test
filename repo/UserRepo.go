@@ -12,7 +12,7 @@ type UserRepo interface {
 	UserUpdate(m map[string]interface{}) error
 	UserDel(ids []interface{}) error
 	UserPage(page models.Page, User models.User) (int, []models.User)
-	UserByColumn(User models.User) []models.User
+	UserByColumn(user models.User) []models.User
 	UserRepeat(ID uint, UserName string) []models.User
 }
 

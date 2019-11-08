@@ -5,7 +5,6 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/context"
 	"github.com/kataras/iris/v12/middleware/logger"
-	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/websocket"
 	"github.com/onrik/logrus/filename"
 	"strings"
@@ -13,7 +12,7 @@ import (
 	"test/datasource"
 	"test/middleware"
 	"test/socket"
-	route "test/web/routes"
+	"test/web/route"
 	"time"
 	//"github.com/iris-contrib/middleware/cors"
 	//"github.com/onrik/logrus/sentry"
@@ -53,7 +52,7 @@ func LoginNew3() *os.File {
 func main() {
 	file := LoginNew3()
 	defer file.Close()
-	app := iris.New()
+	app := iris.New().Configure(iris.WithConfiguration(iris.Configuration{DisableBodyConsumptionOnUnmarshal: true}))
 	r, close := newRequestLogger()
 	defer close()
 	app.Use(r)
@@ -81,7 +80,7 @@ func main() {
 		websocketRoute.Use(middleware.GetJWT().Serve)
 	}
 	//从任何恐慌中恢复，如果有恐慌，则写入500
-	app.Use(recover.New())
+	//app.Use(recover.New())
 	err := app.Run(iris.Addr(":8080"))
 	if err != nil {
 		log.Fatal("启动失败", err.Error())

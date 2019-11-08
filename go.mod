@@ -15,10 +15,6 @@ replace (
 	golang.org/x/text => github.com/golang/text v0.3.0
 	golang.org/x/time => github.com/golang/time v0.0.0-20180412165947-fbb02b2291d2
 	golang.org/x/tools => github.com/golang/tools v0.0.0-20181219222714-6e267b5cc78e
-	google.golang.org/api => github.com/googleapis/google-api-go-client v0.0.0-20181220000619-583d854617af
-	google.golang.org/appengine => github.com/golang/appengine v1.3.0
-	google.golang.org/genproto => github.com/google/go-genproto v0.0.0-20181219182458-5a97ab628bfb
-	google.golang.org/grpc => github.com/grpc/grpc-go v1.17.0
 	labix.org/v2/mgo => github.com/go-mgo/mgo v0.0.0-20160801194620-b6121c6199b7
 	stathat.com/c/consistent => github.com/stathat/consistent v1.0.0
 )
@@ -69,5 +65,4 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	google.golang.org/appengine v0.0.0-00010101000000-000000000000 // indirect
 )
