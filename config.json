@@ -6,7 +6,7 @@
     "CertKey": "",
     "ReqLogPath": "D:/AAA",
     "ErrorLogPath": "D:/AAA",
-    "IsLocal": false,
+    "IsLocal": true,
     "SocketCheckToken": false
   },
   "Mysql": {
