@@ -81,7 +81,7 @@ func main() {
 	}
 	//从任何恐慌中恢复，如果有恐慌，则写入500
 	//app.Use(recover.New())
-	err := app.Run(iris.Addr(":8080"))
+	err := app.Run(iris.Addr(":49111"))
 	if err != nil {
 		log.Fatal("启动失败", err.Error())
 		return
